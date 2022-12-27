@@ -5,7 +5,7 @@ import openai
 
 views = Blueprint('views', __name__)
 
-openai.api_key = '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'
+openai.api_key = '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'
 prompt = "sugira uma breve ideia de startup que gere impacto social:"
 
 @views.route('/', methods=['GET', 'POST'])
