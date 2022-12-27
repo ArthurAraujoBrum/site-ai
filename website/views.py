@@ -2,10 +2,11 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for,
 from website.models import Ideas
 from website import db
 import openai
+import creds
 
 views = Blueprint('views', __name__)
 
-openai.api_key = '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'
+openai.api_key = creds.api_key
 prompt = "sugira uma breve ideia de startup que gere impacto social:"
 
 @views.route('/', methods=['GET', 'POST'])
