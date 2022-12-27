@@ -1,0 +1,53 @@
+body {
+    font-family: system-ui, "Segoe UI", Helvetica, Arial, sans-serif;;
+    background-color: #d1c7d3;
+  }
+h1{
+    color: #3f2443;
+}
+.container{
+    background-color: #d1c7d3;
+    justify-content: center;
+    align-items: center;
+}
+.row {
+display: flex;
+justify-content: center;
+align-items: center;
+margin-right: 20px;
+}
+
+.table{
+background-color: #916896;
+border-radius: 5px;
+box-shadow: 7px 7px 13px 0px rgba(50, 50, 50, 0.22);
+padding: 30px;
+margin: 20px;
+width: auto;
+transition: all 0.3s ease-out;
+text-align: center;
+}
+
+h3{
+    font-size: 20px;
+    font-size-adjust: 0.5;
+}
+
+.td_likes{
+    align-content: center;
+    text-align: center;
+    padding-left: 25px;
+}
+
+.td_idea{
+    text-align: center;
+}
+
+.table:hover{
+transform: translateY(-5px);
+cursor: pointer;
+}
+
+.tr.container{
+    background-color: #916896;
+}
