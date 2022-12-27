@@ -3,16 +3,10 @@ from website.models import Ideas
 from website import db
 import openai
 import os
-from dotenv import load_dotenv
 
 views = Blueprint('views', __name__)
 
-def configure():
-    load_dotenv()
-
-configure()
-
-openai.api_key = os.getenv('api_key')
+openai.api_key = os.environ["OPENAI_API_KEY"]
 prompt = "sugira uma breve ideia de startup que gere impacto social:"
 
 @views.route('/', methods=['GET', 'POST'])
