@@ -1,14 +1,21 @@
 {% extends "base.html" %}
-{% block title %}Ideias Criativas{% endblock %}
+{% block title %}Ideias de Startups{% endblock %}
 {% block content %}
 <br>
 <br>
 <br>
-<h1 align="center">Ideias criadas</h1>
+<h1 align="center">
+    INSPIRE-SE NAS IDEIAS DE STARTUPS SOCIAIS GERADAS 
+</h1>
+<h1 align="center">
+    PELA INTELIGÊNCIA ARTIFICIAL 3HIPPOS
+</h1>
 <br>
 <br>
 <div class="container">
-    <h2 align="center">Ideias de startups geradas pela GPT-3 OpenAi</h2>
+    <h2 align="center">As ideias nesta página são 100% geradas por uma inteligência artificial (IA) e treinada por você. Como funciona? 
+        As pessoas podem votar nas ideias geradas, indicando se é uma boa proposta para impacto social ou não. Depois, a ideias votadas são realimentadas na base de dados da IA, assim você e outras pessoas podem contribuir para o treinamento do modelo da IA, indicando quais são as boas ideias ou as ruins para projetos de impacto social. Esse processo melhora a próxima ideia que será gerada pela IA.
+    </h2>
     <br>
     <div class="row">
         {% for card in cards %}
@@ -38,7 +45,9 @@
     </div>
     <br>
     <br>
-    <h2 align="center">Ideias de startups geradas a partir das ideias mais votadas acima</h2>
+    <h2 align="center">NOVAS IDEIAS DE IMPACTO SOCIAL GERADAS 
+        A PARTIR DA VOTAÇÃO
+    </h2>
     <br>
     <div class="row">
         {% for card in new_cards %}

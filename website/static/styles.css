@@ -1,12 +1,16 @@
 body {
-    font-family: system-ui, "Segoe UI", Helvetica, Arial, sans-serif;;
-    background-color: #d1c7d3;
+    font-family: "Nunito", "Segoe UI", Helvetica, Arial, sans-serif;;
+    background-color: #FFFFFF;
   }
 h1{
+    font-size: 24px;
     color: #3f2443;
 }
+h2{
+    font-size: 20px;
+}
 .container{
-    background-color: #d1c7d3;
+    background-color: #FFFFFF;
     justify-content: center;
     align-items: center;
 }
@@ -18,7 +22,7 @@ margin-right: 20px;
 }
 
 .table{
-background-color: #916896;
+background-color: #F8F9FA;
 border-radius: 5px;
 box-shadow: 7px 7px 13px 0px rgba(50, 50, 50, 0.22);
 padding: 30px;
@@ -29,7 +33,7 @@ text-align: center;
 }
 
 h3{
-    font-size: 20px;
+    font-size: 16px;
     font-size-adjust: 0.5;
 }
 
@@ -49,5 +53,5 @@ cursor: pointer;
 }
 
 .tr.container{
-    background-color: #916896;
+    background-color: #F8F9FA;
 }
