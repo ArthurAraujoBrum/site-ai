@@ -7,15 +7,20 @@ import os
 views = Blueprint('views', __name__)
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
-prompt = "sugira uma breve ideia de startup que gere impacto social:"
+prompt_txt = "sugira uma breve ideia de startup com o tema "
+temas = ["erradicação da pobreza", "agricultura sustentável", "educação de qualidade", "água potável",
+"saneamento básico", "energia limpa", "energia acessível", "equidade", "empregabilidade", "inovação social",
+"redução das desigualdades", "comunidades sustentáveis", "consumo consciente", "produção responsável", "mudança global do clima",
+"vida na água", "paz  e justiça", "instituições eficazes", "vida terrestre", "promover o desenvolvimento e a transferência de tecnologia"]
+temas = temas + temas
 
 @views.route('/', methods=['GET', 'POST'])
 def home():
     if Ideas.query.all() == []:
-        for i in range(10):
+        for tema in temas:
             response = openai.Completion.create(
             model="text-davinci-003",
-            prompt=prompt,
+            prompt=prompt_txt + tema,
             temperature=0.6,
             max_tokens=150,
             top_p=1,
@@ -30,7 +35,7 @@ def home():
         ideas = Ideas.query.order_by(Ideas.like_counter.desc())
         generated_ideas = Ideas.query.filter_by(generated=True).all()
         for idea in ideas:
-            if idea.like_counter > 5:
+            if idea.like_counter >= 3:
                 if any(x.generated_by == idea.id for x in generated_ideas):
                     pass
                 else:
