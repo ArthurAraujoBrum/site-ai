@@ -7,9 +7,9 @@ import os
 views = Blueprint('views', __name__)
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
-prompt_txt = "sugira uma breve ideia de startup com o tema "
+prompt_txt = "em poucas palavras, sugira uma ideia de startup com base no tema "
 temas = ["erradicação da pobreza", "agricultura sustentável", "educação de qualidade", "água potável",
-"saneamento básico", "energia limpa", "energia acessível", "equidade", "empregabilidade", "inovação social",
+"saneamento básico", "energia limpa", "energia acessível", "equidade de gênero", "empregabilidade", "inovação social",
 "redução das desigualdades", "comunidades sustentáveis", "consumo consciente", "produção responsável", "mudança global do clima",
 "vida na água", "paz  e justiça", "instituições eficazes", "vida terrestre", "promover o desenvolvimento e a transferência de tecnologia"]
 temas = temas + temas
@@ -41,7 +41,7 @@ def home():
                 else:
                     response = openai.Completion.create(
                     model="text-davinci-003",
-                    prompt="sugira uma breve ideia de startup que gere impacto social com base na ideia: " + idea.text,
+                    prompt="sugira uma breve ideia de startup com base na ideia: " + idea.text,
                     temperature=0.6,
                     max_tokens=150,
                     top_p=1,
@@ -53,15 +53,6 @@ def home():
                     db.session.commit()
     original_ideas = Ideas.query.filter_by(generated=False).order_by(Ideas.like_counter.desc())
     return render_template("home.html", cards=original_ideas, new_cards=generated_ideas)
-
-@views.route('/init-database')
-def init_database():
-    for i in range(10):
-        idea = Ideas(text='Teste número '+str(i), generated_by=0, like_counter=0)
-        db.session.add(idea)
-        db.session.commit()
-    flash('Database Created!', category='success')
-    return redirect(url_for('views.home'))
 
 @views.route('/like-idea/<idea_id>', methods=['POST'])
 def like_idea(idea_id):
