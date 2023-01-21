@@ -7,33 +7,31 @@ import os
 views = Blueprint('views', __name__)
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
-prompt_txt = "em poucas palavras, sugira uma ideia de startup com base no tema "
-temas = ["erradicação da pobreza", "agricultura sustentável", "educação de qualidade", "água potável",
-"saneamento básico", "energia limpa", "energia acessível", "equidade de gênero", "empregabilidade", "inovação social",
-"redução das desigualdades", "comunidades sustentáveis", "consumo consciente", "produção responsável", "mudança global do clima",
-"vida na água", "paz  e justiça", "instituições eficazes", "vida terrestre", "promover o desenvolvimento e a transferência de tecnologia"]
-temas = temas + temas
-
+prompt_txt = "em uma frase curta, sugira uma startup envolvendo "
+categorias = ["Direitos Humanos", "Equidade", "Erradicação da pobreza", "Inovação", "Sustentabilidade"]
+categorias_list = categorias + categorias
+dic_categorias = {"Direitos Humanos":["educação de qualidade", "água potável", "saneamento básico", "paz e justiça"], "Equidade":["equidade de gênero", "inclusão social", "redução das desigualdades sociais"], "Erradicação da pobreza":["erradicação da pobreza", "empregabilidade"], "Inovação":["inovação social", "instituições eficazes", "promover o desenvolvimento e a transferência de tecnologia"], "Sustentabilidade":["energia limpa", "energia acessível", "comunidades sustentáveis", "consumo consciente", "produção responsável", "mudança global do clima", "vida na água", "vida terrestre"]}
 @views.route('/', methods=['GET', 'POST'])
 def home():
     if Ideas.query.all() == []:
-        for tema in temas:
-            response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=prompt_txt + tema,
-            temperature=0.6,
-            max_tokens=150,
-            top_p=1,
-            frequency_penalty=1,
-            presence_penalty=1,
-            )
-            idea = Ideas(text=response["choices"][0]["text"].strip(), generated_by=0, like_counter=0)
-            db.session.add(idea)
-            db.session.commit()
+        for cat in categorias_list:
+            for tema in dic_categorias[cat]:
+                response = openai.Completion.create(
+                model="text-davinci-003",
+                prompt=prompt_txt + tema,
+                temperature=0.6,
+                max_tokens=150,
+                top_p=1,
+                frequency_penalty=1,
+                presence_penalty=1,
+                )
+                idea = Ideas(text=response["choices"][0]["text"].strip(), generated_by=0, generation=0, category=cat, like_counter=0)
+                db.session.add(idea)
+                db.session.commit()
         return redirect(url_for('views.home'))
     else:
         ideas = Ideas.query.order_by(Ideas.like_counter.desc())
-        generated_ideas = Ideas.query.filter_by(generated=True).all()
+        generated_ideas = Ideas.query.filter(Ideas.generation>0).all()
         for idea in ideas:
             if idea.like_counter >= 3:
                 if any(x.generated_by == idea.id for x in generated_ideas):
@@ -41,18 +39,21 @@ def home():
                 else:
                     response = openai.Completion.create(
                     model="text-davinci-003",
-                    prompt="sugira uma breve ideia de startup com base na ideia: " + idea.text,
+                    prompt="em até duas frases, sugira uma startup com base na ideia: " + idea.text,
                     temperature=0.6,
                     max_tokens=150,
                     top_p=1,
                     frequency_penalty=1,
                     presence_penalty=1,
                     )
-                    new_idea = Ideas(text=response["choices"][0]["text"].strip(), generated_by=idea.id, generated=True, like_counter=0)
+                    new_idea = Ideas(text=response["choices"][0]["text"].strip(), generated_by=idea.id, generation=idea.generation+1, category=idea.category, like_counter=0)
                     db.session.add(new_idea)
                     db.session.commit()
-    original_ideas = Ideas.query.filter_by(generated=False).order_by(Ideas.like_counter.desc())
-    return render_template("home.html", cards=original_ideas, new_cards=generated_ideas)
+    #original_ideas = Ideas.query.filter_by(generated=False).order_by(Ideas.like_counter.desc())
+    ideas_dict = {}
+    for cat in categorias:
+        ideas_dict[cat] = Ideas.query.filter_by(category=cat).order_by(Ideas.like_counter.desc())
+    return render_template("home.html", sections=categorias, cards=ideas_dict)
 
 @views.route('/like-idea/<idea_id>', methods=['POST'])
 def like_idea(idea_id):

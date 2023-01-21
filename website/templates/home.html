@@ -18,18 +18,23 @@
 <br>
 <br>
 <div class="container">
-    <h2 align="center">As ideias nesta página são geradas por uma inteligência artificial (IA). 
-        Como funciona? As pessoas podem votar nas propostas abaixo, indicando se é uma boa ideia 
-        para um projeto ou uma startup de impacto social ou não. Depois, a cada 3 novos votos em uma proposta, 
-        ela é realimentada na base de dados da IA, que aprimora, adiciona outros tópicos e gera uma nova ideia. 
-        Portanto, você e outras pessoas podem contribuir para que a IA gere novas ideias, é só votar abaixo nas melhores propostas para uma startup social!
+    <h2 align="center">
+        As ideias nesta página são geradas por uma inteligência artificial (IA). Como funciona? As pessoas podem votar nas propostas abaixo, dando um "like" para indicar se a proposta é uma boa ideia para um projeto ou uma startup de impacto social. Quando uma mesma ideia recebe 3 votos, a mesma é realimentada na base de dados da IA, que aprimora a proposta votada e gera uma nova ideia.
+        <br>
+        Vote abaixo nas melhores propostas para uma startup social e contribua para o aprimoramento das ideias geradas pela IA! Lembre de atualizar a página para votar mais de uma vez e para visualizar a nova ideia gerada.
+    </h2>
+    <br>
+    {% for cat in sections %}
+    <br>
+    <h2 align="center">
+        Ideias de impacto social com o tema {{ cat }}
     </h2>
     <br>
     <div class="row">
-        {% for card in cards %}
+        {% for card in cards[cat] %}
         <div class="col-sm-4">
-            <div class="table">
-                <div class="tr container">
+            <div class="table-{{ card.generation }}">
+                <div class="tr container-{{ card.generation }}">
                     <div class="td td_idea">
                         <h3>{{ card.text }}</h3> 
                     </div>
@@ -53,35 +58,6 @@
     </div>
     <br>
     <br>
-    <h2 align="center">NOVAS IDEIAS DE IMPACTO SOCIAL GERADAS 
-        A PARTIR DA VOTAÇÃO
-    </h2>
-    <br>
-    <div class="row">
-        {% for card in new_cards %}
-        <div class="col-sm-4">
-            <div class="table">
-                <div class="tr container">
-                    <div class="td td_idea">
-                        <h3>{{ card.text }}</h3> 
-                    </div>
-                    <div class="td td_likes">
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <i class="bi bi-hand-thumbs-down" id="dislike-button-{{ card.id }}" onclick="dislike({{ card.id }})"></i>
-                            </div>
-                            <div class="col-sm-3">
-                                <span id="likes-count-{{ card.id }}">{{ card.like_counter }}</span>
-                            </div>
-                            <div class="col-sm-3">
-                                <i class="bi bi-hand-thumbs-up" id="like-button-{{ card.id }}" onclick="like({{ card.id }})"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+    {% endfor %}
 </div>
 {% endblock %}
