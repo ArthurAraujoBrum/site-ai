@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hasiodhas hiduaysudywqbe'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ["DATABASE_URI"]
 
-db = SQLAlchemy(app)
+db = SQLAlchemy(engine_options={'pool_pre_ping':True})
 db.init_app(app)
 
 from .models import Ideas
