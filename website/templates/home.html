@@ -19,15 +19,31 @@
 <br>
 <div class="container">
     <h2 align="center">
-        As ideias nesta página são geradas por uma inteligência artificial (IA). Como funciona? As pessoas podem votar nas propostas abaixo, dando um "like" para indicar se a proposta é uma boa ideia para um projeto ou uma startup de impacto social. Quando uma mesma ideia recebe 3 votos, a mesma é realimentada na base de dados da IA, que aprimora a proposta votada e gera uma nova ideia.
+        As ideias nesta página são geradas por uma inteligência artificial (IA). Saiba como funciona <a href="#video">AQUI</a>.
         <br>
-        Vote abaixo nas melhores propostas para uma startup social e contribua para o aprimoramento das ideias geradas pela IA! Lembre de atualizar a página para votar mais de uma vez e para visualizar a nova ideia gerada.
+        <br>
+        Vote abaixo nas melhores propostas para uma startup social e contribua para o aprimoramento das ideias geradas pela inteligência artificial!
+        <br>
+        <br>
+        É necessário atualizar a página para votar mais de uma vez e para visualizar a nova ideia gerada.
     </h2>
+    <br>
+    <h2 align="center">
+        Escolha entre os temas:
+    </h2>
+    <br>
+    <div class="row" align="center">
+        {% for cat in sections %}
+        <div class="col-sm-2" align="center">
+            <a href="#{{ cat }}">{{ cat }}</a>
+        </div>
+        {% endfor %}
+    </div>
     <br>
     {% for cat in sections %}
     <br>
-    <h2 align="center">
-        Ideias de impacto social com o tema {{ cat }}
+    <h2 align="center" id="{{ cat }}">
+        {{ cat }}
     </h2>
     <br>
     <div class="row">
@@ -58,6 +74,10 @@
     </div>
     <br>
     <br>
+    <br>
     {% endfor %}
+    <div class="container" align="center" id="video">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/QPxR9tSmTOw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
 </div>
 {% endblock %}
