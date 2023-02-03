@@ -34,9 +34,7 @@ def home():
         generated_ideas = Ideas.query.filter(Ideas.generation>0).all()
         for idea in ideas:
             if idea.like_counter >= 3:
-                if any(x.generated_by == idea.id for x in generated_ideas):
-                    pass
-                else:
+                if ((idea.like_counter/3).is_integer()==True and len(Ideas.query.filter(Ideas.generation>0).filter(Ideas.generated_by==idea.id).all())<int(idea.like_counter/3)):
                     response = openai.Completion.create(
                     model="text-davinci-003",
                     prompt="em até duas frases, sugira uma startup com base na ideia: " + idea.text,
@@ -49,7 +47,8 @@ def home():
                     new_idea = Ideas(text=response["choices"][0]["text"].strip(), generated_by=idea.id, generation=idea.generation+1, category=idea.category, like_counter=0)
                     db.session.add(new_idea)
                     db.session.commit()
-    #original_ideas = Ideas.query.filter_by(generated=False).order_by(Ideas.like_counter.desc())
+                else:
+                    pass
     ideas_dict = {}
     for cat in categorias:
         ideas_dict[cat] = Ideas.query.filter_by(category=cat).order_by(Ideas.like_counter.desc())
